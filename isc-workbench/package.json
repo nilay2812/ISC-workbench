@@ -1,0 +1,2583 @@
+{
+  "name": "isc-workbench",
+  "displayName": "ISC Workbench",
+  "description": "Explore the SailPoint Identity Security Cloud API, edit tenant configuration as JSON, and promote changes between environments, all from VS Code.",
+  "version": "0.9.3",
+  "publisher": "nilay-mani",
+  "icon": "resources/icon-256.png",
+  "galleryBanner": {
+    "color": "#0B1030",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.105.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR-USER/isc-workbench.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR-USER/isc-workbench/issues"
+  },
+  "homepage": "https://github.com/YOUR-USER/isc-workbench#readme",
+  "categories": [
+    "Other",
+    "Snippets"
+  ],
+  "keywords": [
+    "SailPoint",
+    "ISC",
+    "Identity Security Cloud",
+    "IdentityNow",
+    "IAM",
+    "IGA",
+    "identity governance",
+    "SP-Config",
+    "promotion",
+    "API",
+    "OpenAPI",
+    "JSON",
+    "transforms",
+    "workflows",
+    "connectors",
+    "SaaS connectivity"
+  ],
+  "preview": true,
+  "main": "./src/extension.js",
+  "extensionKind": [
+    "ui"
+  ],
+  "activationEvents": [
+    "onView:iscWorkbench.environments",
+    "onView:iscWorkbench.apis",
+    "onFileSystem:isc-resource",
+    "onView:iscWorkbench.saas"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Tenant credentials and local configuration files require a trusted workspace."
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "iscWorkbench.home",
+        "title": "Open Workbench",
+        "icon": "$(home)"
+      },
+      {
+        "command": "iscWorkbench.addEnvironment",
+        "title": "Add Environment",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.configureEnvironment",
+        "title": "Configure Environment",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "iscWorkbench.removeEnvironment",
+        "title": "Remove Environment",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "iscWorkbench.testConnection",
+        "title": "Test Authentication",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "iscWorkbench.refresh",
+        "title": "Refresh Environments",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.searchApi",
+        "title": "Search All APIs",
+        "icon": "$(search)"
+      },
+      {
+        "command": "iscWorkbench.newRequest",
+        "title": "New API Request",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "iscWorkbench.runRequest",
+        "title": "Run Request",
+        "icon": "$(play)"
+      },
+      {
+        "command": "iscWorkbench.requestDocs",
+        "title": "Open Request Documentation",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "iscWorkbench.operationDetails",
+        "title": "Inspect Operation Schema",
+        "icon": "$(book)"
+      },
+      {
+        "command": "iscWorkbench.openResource",
+        "title": "Open Item",
+        "icon": "$(json)"
+      },
+      {
+        "command": "iscWorkbench.publishResource",
+        "title": "Publish Item Changes",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "iscWorkbench.createResource",
+        "title": "Create Item",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.nextPage",
+        "title": "Load Next Page",
+        "icon": "$(arrow-down)"
+      },
+      {
+        "command": "iscWorkbench.newPromotion",
+        "title": "Prepare Environment Promotion",
+        "icon": "$(git-compare)"
+      },
+      {
+        "command": "iscWorkbench.applyMappings",
+        "title": "Apply Promotion Mappings",
+        "icon": "$(replace-all)"
+      },
+      {
+        "command": "iscWorkbench.previewPromotion",
+        "title": "Preview Promotion",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "iscWorkbench.applyPromotion",
+        "title": "Apply Promotion",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "iscWorkbench.resumeJob",
+        "title": "Resume or Inspect Job",
+        "icon": "$(history)"
+      },
+      {
+        "command": "iscWorkbench.showLog",
+        "title": "Show Request Log",
+        "icon": "$(output)"
+      },
+      {
+        "command": "iscWorkbench.toggleWrites",
+        "title": "Toggle Environment Lock",
+        "icon": "$(lock)"
+      },
+      {
+        "command": "iscWorkbench.unlockEnvironment",
+        "title": "Enable Writes",
+        "icon": "$(lock)"
+      },
+      {
+        "command": "iscWorkbench.lockEnvironment",
+        "title": "Set Read-Only",
+        "icon": "$(unlock)"
+      },
+      {
+        "command": "iscWorkbench.copyResourceId",
+        "title": "Copy Item ID",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "iscWorkbench.refreshCollection",
+        "title": "Refresh Collection",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.findSource",
+        "title": "Find Source",
+        "icon": "$(search)"
+      },
+      {
+        "command": "iscWorkbench.refreshConnectorTypes",
+        "title": "Refresh Connector Types",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.openRuleScript",
+        "title": "Edit Rule Script",
+        "icon": "$(code)"
+      },
+      {
+        "command": "iscWorkbench.enableWorkflow",
+        "title": "Enable Workflow",
+        "icon": "$(play)"
+      },
+      {
+        "command": "iscWorkbench.disableWorkflow",
+        "title": "Disable Workflow",
+        "icon": "$(debug-pause)"
+      },
+      {
+        "command": "iscWorkbench.resourceActions",
+        "title": "Item API Actions"
+      },
+      {
+        "command": "iscWorkbench.aggregateSource",
+        "title": "Run Account Aggregation"
+      },
+      {
+        "command": "iscWorkbench.aggregateSourceUnoptimized",
+        "title": "Run Unoptimized Account Aggregation"
+      },
+      {
+        "command": "iscWorkbench.testSource",
+        "title": "Test Source Connection"
+      },
+      {
+        "command": "iscWorkbench.pingSource",
+        "title": "Ping Source Cluster"
+      },
+      {
+        "command": "iscWorkbench.cloneResource",
+        "title": "Clone Configuration…"
+      },
+      {
+        "command": "iscWorkbench.exportResource",
+        "title": "Export JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResource",
+        "title": "Delete Item…"
+      },
+      {
+        "command": "iscWorkbench.enableResource",
+        "title": "Enable"
+      },
+      {
+        "command": "iscWorkbench.disableResource",
+        "title": "Disable"
+      },
+      {
+        "command": "iscWorkbench.cloneResourceSource",
+        "title": "Clone Source…"
+      },
+      {
+        "command": "iscWorkbench.exportResourceSource",
+        "title": "Export Source Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceSource",
+        "title": "Delete Source…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsSource",
+        "title": "Source API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceSource",
+        "title": "Create Source…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceSource",
+        "title": "Open Source"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdSource",
+        "title": "Copy Source ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionSource",
+        "title": "Refresh Sources",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.cloneResourceTransform",
+        "title": "Clone Transform…"
+      },
+      {
+        "command": "iscWorkbench.exportResourceTransform",
+        "title": "Export Transform Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceTransform",
+        "title": "Delete Transform…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsTransform",
+        "title": "Transform API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceTransform",
+        "title": "Create Transform…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceTransform",
+        "title": "Open Transform"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdTransform",
+        "title": "Copy Transform ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionTransform",
+        "title": "Refresh Transforms",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.cloneResourceRole",
+        "title": "Clone Role…"
+      },
+      {
+        "command": "iscWorkbench.exportResourceRole",
+        "title": "Export Role Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceRole",
+        "title": "Delete Role…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsRole",
+        "title": "Role API Actions…"
+      },
+      {
+        "command": "iscWorkbench.enableResourceRole",
+        "title": "Enable Role"
+      },
+      {
+        "command": "iscWorkbench.disableResourceRole",
+        "title": "Disable Role"
+      },
+      {
+        "command": "iscWorkbench.createResourceRole",
+        "title": "Create Role…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceRole",
+        "title": "Open Role"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdRole",
+        "title": "Copy Role ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionRole",
+        "title": "Refresh Roles",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.cloneResourceAccessProfile",
+        "title": "Clone Access Profile…"
+      },
+      {
+        "command": "iscWorkbench.exportResourceAccessProfile",
+        "title": "Export Access Profile Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceAccessProfile",
+        "title": "Delete Access Profile…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsAccessProfile",
+        "title": "Access Profile API Actions…"
+      },
+      {
+        "command": "iscWorkbench.enableResourceAccessProfile",
+        "title": "Enable Access Profile"
+      },
+      {
+        "command": "iscWorkbench.disableResourceAccessProfile",
+        "title": "Disable Access Profile"
+      },
+      {
+        "command": "iscWorkbench.createResourceAccessProfile",
+        "title": "Create Access Profile…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceAccessProfile",
+        "title": "Open Access Profile"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdAccessProfile",
+        "title": "Copy Access Profile ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionAccessProfile",
+        "title": "Refresh Access Profiles",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.cloneResourceConnectorRule",
+        "title": "Clone Connector Rule…"
+      },
+      {
+        "command": "iscWorkbench.exportResourceConnectorRule",
+        "title": "Export Connector Rule Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceConnectorRule",
+        "title": "Delete Connector Rule…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsConnectorRule",
+        "title": "Connector Rule API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceConnectorRule",
+        "title": "Create Connector Rule…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceConnectorRule",
+        "title": "Open Connector Rule"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdConnectorRule",
+        "title": "Copy Connector Rule ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionConnectorRule",
+        "title": "Refresh Connector Rules",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.cloneResourceWorkflow",
+        "title": "Clone Workflow…"
+      },
+      {
+        "command": "iscWorkbench.exportResourceWorkflow",
+        "title": "Export Workflow Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceWorkflow",
+        "title": "Delete Workflow…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsWorkflow",
+        "title": "Workflow API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceWorkflow",
+        "title": "Create Workflow…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceWorkflow",
+        "title": "Open Workflow"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdWorkflow",
+        "title": "Copy Workflow ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionWorkflow",
+        "title": "Refresh Workflows",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceIdentityProfile",
+        "title": "Export Identity Profile Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceIdentityProfile",
+        "title": "Delete Identity Profile…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsIdentityProfile",
+        "title": "Identity Profile API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceIdentityProfile",
+        "title": "Create Identity Profile…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceIdentityProfile",
+        "title": "Open Identity Profile"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdIdentityProfile",
+        "title": "Copy Identity Profile ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionIdentityProfile",
+        "title": "Refresh Identity Profiles",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceIdentityAttribute",
+        "title": "Export Identity Attribute JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceIdentityAttribute",
+        "title": "Delete Identity Attribute…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsIdentityAttribute",
+        "title": "Identity Attribute API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceIdentityAttribute",
+        "title": "Create Identity Attribute…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceIdentityAttribute",
+        "title": "Open Identity Attribute"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdIdentityAttribute",
+        "title": "Copy Identity Attribute ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionIdentityAttribute",
+        "title": "Refresh Identity Attributes",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceForm",
+        "title": "Export Form Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceForm",
+        "title": "Delete Form…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsForm",
+        "title": "Form API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceForm",
+        "title": "Create Form…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceForm",
+        "title": "Open Form"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdForm",
+        "title": "Copy Form ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionForm",
+        "title": "Refresh Forms",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceGovernanceGroup",
+        "title": "Export Governance Group Configuration (SP-Config)…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceGovernanceGroup",
+        "title": "Delete Governance Group…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsGovernanceGroup",
+        "title": "Governance Group API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceGovernanceGroup",
+        "title": "Create Governance Group…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceGovernanceGroup",
+        "title": "Open Governance Group"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdGovernanceGroup",
+        "title": "Copy Governance Group ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionGovernanceGroup",
+        "title": "Refresh Governance Groups",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceApplication",
+        "title": "Export Application JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceApplication",
+        "title": "Delete Application…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsApplication",
+        "title": "Application API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceApplication",
+        "title": "Create Application…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceApplication",
+        "title": "Open Application"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdApplication",
+        "title": "Copy Application ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionApplication",
+        "title": "Refresh Applications",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceIdentity",
+        "title": "Export Identity JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceIdentity",
+        "title": "Delete Identity…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsIdentity",
+        "title": "Identity API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceIdentity",
+        "title": "Create Identity…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceIdentity",
+        "title": "Open Identity"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdIdentity",
+        "title": "Copy Identity ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionIdentity",
+        "title": "Refresh Identities",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceAccount",
+        "title": "Export Account JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceAccount",
+        "title": "Delete Account…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsAccount",
+        "title": "Account API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceAccount",
+        "title": "Create Account…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceAccount",
+        "title": "Open Account"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdAccount",
+        "title": "Copy Account ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionAccount",
+        "title": "Refresh Accounts",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceEntitlement",
+        "title": "Export Entitlement JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceEntitlement",
+        "title": "Delete Entitlement…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsEntitlement",
+        "title": "Entitlement API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceEntitlement",
+        "title": "Create Entitlement…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceEntitlement",
+        "title": "Open Entitlement"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdEntitlement",
+        "title": "Copy Entitlement ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionEntitlement",
+        "title": "Refresh Entitlements",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceMachineIdentity",
+        "title": "Export Machine Identity JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceMachineIdentity",
+        "title": "Delete Machine Identity…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsMachineIdentity",
+        "title": "Machine Identity API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceMachineIdentity",
+        "title": "Create Machine Identity…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceMachineIdentity",
+        "title": "Open Machine Identity"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdMachineIdentity",
+        "title": "Copy Machine Identity ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionMachineIdentity",
+        "title": "Refresh Machine Identities",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceSchema",
+        "title": "Export Schema JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceSchema",
+        "title": "Delete Schema…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsSchema",
+        "title": "Schema API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceSchema",
+        "title": "Create Schema…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceSchema",
+        "title": "Open Schema"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdSchema",
+        "title": "Copy Schema ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionSchema",
+        "title": "Refresh Schemas",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.exportResourceProvisioningPolicy",
+        "title": "Export Provisioning Policy JSON…"
+      },
+      {
+        "command": "iscWorkbench.deleteResourceProvisioningPolicy",
+        "title": "Delete Provisioning Policy…"
+      },
+      {
+        "command": "iscWorkbench.resourceActionsProvisioningPolicy",
+        "title": "Provisioning Policy API Actions…"
+      },
+      {
+        "command": "iscWorkbench.createResourceProvisioningPolicy",
+        "title": "Create Provisioning Policy…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.openResourceProvisioningPolicy",
+        "title": "Open Provisioning Policy"
+      },
+      {
+        "command": "iscWorkbench.copyResourceIdProvisioningPolicy",
+        "title": "Copy Provisioning Policy ID"
+      },
+      {
+        "command": "iscWorkbench.refreshCollectionProvisioningPolicy",
+        "title": "Refresh Provisioning Policies",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.saasRefresh",
+        "title": "Refresh SaaS Connectivity",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.saasCreateConnector",
+        "title": "Create SaaS Connector…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.saasCreateCustomizer",
+        "title": "Create Customizer…",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iscWorkbench.saasRename",
+        "title": "Rename SaaS Connector…",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "iscWorkbench.saasDelete",
+        "title": "Delete SaaS Connector…",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "iscWorkbench.saasRenameCustomizer",
+        "title": "Rename Customizer…",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "iscWorkbench.saasDeleteCustomizer",
+        "title": "Delete Customizer…",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "iscWorkbench.saasUploadCustomizer",
+        "title": "Upload Customizer ZIP…",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "iscWorkbench.saasDeployCustomizer",
+        "title": "Build and Deploy Customizer…",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "iscWorkbench.saasUpload",
+        "title": "Upload Connector ZIP…",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "iscWorkbench.saasDeploy",
+        "title": "Build and Deploy Connector…",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "iscWorkbench.saasLink",
+        "title": "Link Customizer…",
+        "icon": "$(link)"
+      },
+      {
+        "command": "iscWorkbench.saasUnlink",
+        "title": "Unlink Customizer…",
+        "icon": "$(unlink)"
+      },
+      {
+        "command": "iscWorkbench.saasLogs",
+        "title": "Fetch Source Logs…",
+        "icon": "$(output)"
+      },
+      {
+        "command": "iscWorkbench.saasTail",
+        "title": "Stream Source Logs…",
+        "icon": "$(play)"
+      },
+      {
+        "command": "iscWorkbench.saasStopLogs",
+        "title": "Stop Source Logs",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "iscWorkbench.saasStopAllLogs",
+        "title": "Stop All Source Log Streams",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "iscWorkbench.saasInspect",
+        "title": "Open SaaS Configuration",
+        "icon": "$(json)"
+      },
+      {
+        "command": "iscWorkbench.saasCopyId",
+        "title": "Copy SaaS Item ID",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "iscWorkbench.saasTest",
+        "title": "Test SaaS Connector…",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "iscWorkbench.saasTestLocal",
+        "title": "Test Local Connector…",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "iscWorkbench.saasReplay",
+        "title": "Replay Connector Test…",
+        "icon": "$(history)"
+      },
+      {
+        "command": "iscWorkbench.saasClearHistory",
+        "title": "Clear Connector Test History",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "iscWorkbench.saasProjectConnector",
+        "title": "Create Connector Project…",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "iscWorkbench.saasProjectCustomizer",
+        "title": "Create Customizer Project…",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "iscWorkbench.saasBuild",
+        "title": "Build Connector Project…",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "iscWorkbench.saasDebug",
+        "title": "Start Connector Debug Server…",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "iscWorkbench.opsRefresh",
+        "title": "Refresh Operations",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.opsDetails",
+        "title": "Show Diagnostic Details",
+        "icon": "$(info)"
+      },
+      {
+        "command": "iscWorkbench.opsFilter",
+        "title": "Filter Results…",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "iscWorkbench.reloadFromISC",
+        "title": "Reload from ISC",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iscWorkbench.compareWithISC",
+        "title": "Compare with Latest ISC",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "iscWorkbench.copySourceTargetName",
+        "title": "Copy Source Target Name"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "iscWorkbench",
+          "title": "ISC Workbench",
+          "icon": "resources/workbench.svg"
+        }
+      ]
+    },
+    "views": {
+      "iscWorkbench": [
+        {
+          "id": "iscWorkbench.environments",
+          "name": "Environments"
+        },
+        {
+          "id": "iscWorkbench.apis",
+          "name": "API Catalog",
+          "when": "config.iscWorkbench.showApiCatalog"
+        },
+        {
+          "id": "iscWorkbench.saas",
+          "name": "SaaS Connectivity",
+          "visibility": "visible"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "iscWorkbench.environments",
+        "contents": "Connect an ISC tenant to browse configuration.\n[Add Environment](command:iscWorkbench.addEnvironment)\n[Open Workbench](command:iscWorkbench.home)"
+      },
+      {
+        "view": "iscWorkbench.saas",
+        "contents": "Add an environment to manage custom SaaS connectors, customizers and source logs.\n[Add Environment](command:iscWorkbench.addEnvironment)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "iscWorkbench.addEnvironment",
+          "when": "view == iscWorkbench.environments",
+          "group": "navigation"
+        },
+        {
+          "command": "iscWorkbench.refresh",
+          "when": "view == iscWorkbench.environments",
+          "group": "navigation"
+        },
+        {
+          "command": "iscWorkbench.searchApi",
+          "when": "view == iscWorkbench.apis",
+          "group": "navigation"
+        },
+        {
+          "command": "iscWorkbench.saasRefresh",
+          "when": "view == iscWorkbench.saas",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "iscWorkbench.configureEnvironment",
+          "when": "viewItem =~ /^iscEnvironment/",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.testConnection",
+          "when": "viewItem =~ /^iscEnvironment/",
+          "group": "inline@3"
+        },
+        {
+          "command": "iscWorkbench.removeEnvironment",
+          "when": "viewItem =~ /^iscEnvironment/",
+          "group": "environment@9"
+        },
+        {
+          "command": "iscWorkbench.operationDetails",
+          "when": "viewItem == iscOperation",
+          "group": "inline"
+        },
+        {
+          "command": "iscWorkbench.unlockEnvironment",
+          "when": "viewItem == iscEnvironmentLocked",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.lockEnvironment",
+          "when": "viewItem == iscEnvironmentWritable",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.findSource",
+          "when": "viewItem =~ /^iscEnvironment/",
+          "group": "source"
+        },
+        {
+          "command": "iscWorkbench.refreshConnectorTypes",
+          "when": "viewItem =~ /^iscEnvironment/",
+          "group": "source"
+        },
+        {
+          "command": "iscWorkbench.openRuleScript",
+          "when": "viewItem == iscConnectorRule",
+          "group": "inline"
+        },
+        {
+          "command": "iscWorkbench.enableWorkflow",
+          "when": "viewItem == iscWorkflowDisabled",
+          "group": "inline"
+        },
+        {
+          "command": "iscWorkbench.disableWorkflow",
+          "when": "viewItem == iscWorkflowEnabled",
+          "group": "inline"
+        },
+        {
+          "command": "iscWorkbench.aggregateSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "resource"
+        },
+        {
+          "command": "iscWorkbench.aggregateSourceUnoptimized",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "resource"
+        },
+        {
+          "command": "iscWorkbench.testSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "resource"
+        },
+        {
+          "command": "iscWorkbench.pingSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "resource"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceSource",
+          "when": "viewItem == iscCollectionSource",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceSource",
+          "when": "viewItem == iscCollectionSource",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdSource",
+          "when": "viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionSource",
+          "when": "viewItem == iscCollectionSource",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceTransform",
+          "when": "viewItem == iscTransform",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceTransform",
+          "when": "viewItem == iscTransform",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceTransform",
+          "when": "viewItem == iscCollectionTransform",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceTransform",
+          "when": "viewItem == iscTransform",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsTransform",
+          "when": "viewItem == iscTransform",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceTransform",
+          "when": "viewItem == iscCollectionTransform",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceTransform",
+          "when": "viewItem == iscTransform",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdTransform",
+          "when": "viewItem == iscTransform",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionTransform",
+          "when": "viewItem == iscCollectionTransform",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceRole",
+          "when": "viewItem == iscCollectionRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.enableResourceRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.disableResourceRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceRole",
+          "when": "viewItem == iscCollectionRole",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdRole",
+          "when": "viewItem == iscRole",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionRole",
+          "when": "viewItem == iscCollectionRole",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceAccessProfile",
+          "when": "viewItem == iscCollectionAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.enableResourceAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.disableResourceAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceAccessProfile",
+          "when": "viewItem == iscCollectionAccessProfile",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdAccessProfile",
+          "when": "viewItem == iscAccessProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionAccessProfile",
+          "when": "viewItem == iscCollectionAccessProfile",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceConnectorRule",
+          "when": "viewItem == iscConnectorRule",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceConnectorRule",
+          "when": "viewItem == iscConnectorRule",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceConnectorRule",
+          "when": "viewItem == iscCollectionConnectorRule",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceConnectorRule",
+          "when": "viewItem == iscConnectorRule",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsConnectorRule",
+          "when": "viewItem == iscConnectorRule",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceConnectorRule",
+          "when": "viewItem == iscCollectionConnectorRule",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceConnectorRule",
+          "when": "viewItem == iscConnectorRule",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdConnectorRule",
+          "when": "viewItem == iscConnectorRule",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionConnectorRule",
+          "when": "viewItem == iscCollectionConnectorRule",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceWorkflow",
+          "when": "viewItem =~ /^iscWorkflow(Enabled|Disabled)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceWorkflow",
+          "when": "viewItem =~ /^iscWorkflow(Enabled|Disabled)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceWorkflow",
+          "when": "viewItem == iscCollectionWorkflow",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceWorkflow",
+          "when": "viewItem =~ /^iscWorkflow(Enabled|Disabled)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsWorkflow",
+          "when": "viewItem =~ /^iscWorkflow(Enabled|Disabled)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceWorkflow",
+          "when": "viewItem == iscCollectionWorkflow",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceWorkflow",
+          "when": "viewItem =~ /^iscWorkflow(Enabled|Disabled)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdWorkflow",
+          "when": "viewItem =~ /^iscWorkflow(Enabled|Disabled)$/",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionWorkflow",
+          "when": "viewItem == iscCollectionWorkflow",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentityProfile",
+          "when": "viewItem == iscIdentityProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentityProfile",
+          "when": "viewItem == iscCollectionIdentityProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceIdentityProfile",
+          "when": "viewItem == iscIdentityProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsIdentityProfile",
+          "when": "viewItem == iscIdentityProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceIdentityProfile",
+          "when": "viewItem == iscCollectionIdentityProfile",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceIdentityProfile",
+          "when": "viewItem == iscIdentityProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdIdentityProfile",
+          "when": "viewItem == iscIdentityProfile",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionIdentityProfile",
+          "when": "viewItem == iscCollectionIdentityProfile",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentityAttribute",
+          "when": "viewItem == iscIdentityAttribute",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentityAttribute",
+          "when": "viewItem == iscCollectionIdentityAttribute",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceIdentityAttribute",
+          "when": "viewItem == iscIdentityAttribute",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsIdentityAttribute",
+          "when": "viewItem == iscIdentityAttribute",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceIdentityAttribute",
+          "when": "viewItem == iscCollectionIdentityAttribute",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceIdentityAttribute",
+          "when": "viewItem == iscIdentityAttribute",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdIdentityAttribute",
+          "when": "viewItem == iscIdentityAttribute",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionIdentityAttribute",
+          "when": "viewItem == iscCollectionIdentityAttribute",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceForm",
+          "when": "viewItem == iscForm",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceForm",
+          "when": "viewItem == iscCollectionForm",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceForm",
+          "when": "viewItem == iscForm",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsForm",
+          "when": "viewItem == iscForm",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceForm",
+          "when": "viewItem == iscCollectionForm",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceForm",
+          "when": "viewItem == iscForm",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdForm",
+          "when": "viewItem == iscForm",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionForm",
+          "when": "viewItem == iscCollectionForm",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceGovernanceGroup",
+          "when": "viewItem == iscGovernanceGroup",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceGovernanceGroup",
+          "when": "viewItem == iscCollectionGovernanceGroup",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceGovernanceGroup",
+          "when": "viewItem == iscGovernanceGroup",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsGovernanceGroup",
+          "when": "viewItem == iscGovernanceGroup",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceGovernanceGroup",
+          "when": "viewItem == iscCollectionGovernanceGroup",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceGovernanceGroup",
+          "when": "viewItem == iscGovernanceGroup",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdGovernanceGroup",
+          "when": "viewItem == iscGovernanceGroup",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionGovernanceGroup",
+          "when": "viewItem == iscCollectionGovernanceGroup",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceApplication",
+          "when": "viewItem == iscApplication",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceApplication",
+          "when": "viewItem == iscCollectionApplication",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceApplication",
+          "when": "viewItem == iscApplication",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsApplication",
+          "when": "viewItem == iscApplication",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceApplication",
+          "when": "viewItem == iscCollectionApplication",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceApplication",
+          "when": "viewItem == iscApplication",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdApplication",
+          "when": "viewItem == iscApplication",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionApplication",
+          "when": "viewItem == iscCollectionApplication",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentity",
+          "when": "viewItem == iscIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentity",
+          "when": "viewItem == iscCollectionIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceIdentity",
+          "when": "viewItem == iscIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsIdentity",
+          "when": "viewItem == iscIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceIdentity",
+          "when": "viewItem == iscCollectionIdentity",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceIdentity",
+          "when": "viewItem == iscIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdIdentity",
+          "when": "viewItem == iscIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionIdentity",
+          "when": "viewItem == iscCollectionIdentity",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceAccount",
+          "when": "viewItem == iscAccount",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceAccount",
+          "when": "viewItem == iscCollectionAccount",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceAccount",
+          "when": "viewItem == iscAccount",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsAccount",
+          "when": "viewItem == iscAccount",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceAccount",
+          "when": "viewItem == iscCollectionAccount",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceAccount",
+          "when": "viewItem == iscAccount",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdAccount",
+          "when": "viewItem == iscAccount",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionAccount",
+          "when": "viewItem == iscCollectionAccount",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceEntitlement",
+          "when": "viewItem == iscEntitlement",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceEntitlement",
+          "when": "viewItem == iscCollectionEntitlement",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceEntitlement",
+          "when": "viewItem == iscEntitlement",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsEntitlement",
+          "when": "viewItem == iscEntitlement",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceEntitlement",
+          "when": "viewItem == iscCollectionEntitlement",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceEntitlement",
+          "when": "viewItem == iscEntitlement",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdEntitlement",
+          "when": "viewItem == iscEntitlement",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionEntitlement",
+          "when": "viewItem == iscCollectionEntitlement",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceMachineIdentity",
+          "when": "viewItem == iscMachineIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceMachineIdentity",
+          "when": "viewItem == iscCollectionMachineIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceMachineIdentity",
+          "when": "viewItem == iscMachineIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsMachineIdentity",
+          "when": "viewItem == iscMachineIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceMachineIdentity",
+          "when": "viewItem == iscCollectionMachineIdentity",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceMachineIdentity",
+          "when": "viewItem == iscMachineIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdMachineIdentity",
+          "when": "viewItem == iscMachineIdentity",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionMachineIdentity",
+          "when": "viewItem == iscCollectionMachineIdentity",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceSchema",
+          "when": "viewItem == iscSchema",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceSchema",
+          "when": "viewItem == iscCollectionSchema",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceSchema",
+          "when": "viewItem == iscSchema",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsSchema",
+          "when": "viewItem == iscSchema",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceSchema",
+          "when": "viewItem == iscCollectionSchema",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceSchema",
+          "when": "viewItem == iscSchema",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdSchema",
+          "when": "viewItem == iscSchema",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionSchema",
+          "when": "viewItem == iscCollectionSchema",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.exportResourceProvisioningPolicy",
+          "when": "viewItem == iscProvisioningPolicy",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.exportResourceProvisioningPolicy",
+          "when": "viewItem == iscCollectionProvisioningPolicy",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceProvisioningPolicy",
+          "when": "viewItem == iscProvisioningPolicy",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsProvisioningPolicy",
+          "when": "viewItem == iscProvisioningPolicy",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.createResourceProvisioningPolicy",
+          "when": "viewItem == iscCollectionProvisioningPolicy",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.openResourceProvisioningPolicy",
+          "when": "viewItem == iscProvisioningPolicy",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdProvisioningPolicy",
+          "when": "viewItem == iscProvisioningPolicy",
+          "group": "item"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionProvisioningPolicy",
+          "when": "viewItem == iscCollectionProvisioningPolicy",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.saasRefresh",
+          "when": "viewItem =~ /^saasFolder/",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.saasCreateConnector",
+          "when": "viewItem == saasFolderconnector",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.saasCreateCustomizer",
+          "when": "viewItem == saasFoldercustomizer",
+          "group": "inline@2"
+        },
+        {
+          "command": "iscWorkbench.saasRename",
+          "when": "viewItem == saasconnector",
+          "group": "manage@1"
+        },
+        {
+          "command": "iscWorkbench.saasDelete",
+          "when": "viewItem == saasconnector",
+          "group": "manage@9"
+        },
+        {
+          "command": "iscWorkbench.saasUpload",
+          "when": "viewItem == saasconnector",
+          "group": "deploy@1"
+        },
+        {
+          "command": "iscWorkbench.saasDeploy",
+          "when": "viewItem == saasconnector",
+          "group": "deploy@2"
+        },
+        {
+          "command": "iscWorkbench.saasRenameCustomizer",
+          "when": "viewItem == saascustomizer",
+          "group": "manage@1"
+        },
+        {
+          "command": "iscWorkbench.saasDeleteCustomizer",
+          "when": "viewItem == saascustomizer",
+          "group": "manage@9"
+        },
+        {
+          "command": "iscWorkbench.saasUploadCustomizer",
+          "when": "viewItem == saascustomizer",
+          "group": "deploy@1"
+        },
+        {
+          "command": "iscWorkbench.saasDeployCustomizer",
+          "when": "viewItem == saascustomizer",
+          "group": "deploy@2"
+        },
+        {
+          "command": "iscWorkbench.saasInspect",
+          "when": "viewItem =~ /^saas(connector|customizer|instance)$/",
+          "group": "details@1"
+        },
+        {
+          "command": "iscWorkbench.saasCopyId",
+          "when": "viewItem =~ /^saas(connector|customizer|instance)$/",
+          "group": "details@2"
+        },
+        {
+          "command": "iscWorkbench.saasLink",
+          "when": "viewItem == saascustomizer || viewItem == saasinstance",
+          "group": "customizer@1"
+        },
+        {
+          "command": "iscWorkbench.saasUnlink",
+          "when": "viewItem == saasinstance",
+          "group": "customizer@2"
+        },
+        {
+          "command": "iscWorkbench.saasLogs",
+          "when": "viewItem == saasinstance || viewItem == iscSaasSource",
+          "group": "logs@1"
+        },
+        {
+          "command": "iscWorkbench.saasTail",
+          "when": "viewItem == saasinstance || viewItem == iscSaasSource",
+          "group": "logs@2"
+        },
+        {
+          "command": "iscWorkbench.saasStopLogs",
+          "when": "viewItem == saasinstance || viewItem == iscSaasSource",
+          "group": "logs@3"
+        },
+        {
+          "command": "iscWorkbench.saasTest",
+          "when": "viewItem == saasconnector",
+          "group": "test@1"
+        },
+        {
+          "command": "iscWorkbench.opsFilter",
+          "when": "viewItem == iscOpsFolder",
+          "group": "diagnostics"
+        },
+        {
+          "command": "iscWorkbench.opsRefresh",
+          "when": "viewItem == iscOpsFolder",
+          "group": "inline@1"
+        },
+        {
+          "command": "iscWorkbench.copySourceTargetName",
+          "when": "view == iscWorkbench.environments && viewItem =~ /^(iscSource|iscSaasSource)$/",
+          "group": "iscCopy@2"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "iscWorkbench.runRequest",
+          "when": "editorLangId == json",
+          "group": "navigation"
+        },
+        {
+          "command": "iscWorkbench.reloadFromISC",
+          "when": "resourceScheme == isc-resource",
+          "group": "navigation@10"
+        },
+        {
+          "command": "iscWorkbench.compareWithISC",
+          "when": "resourceScheme == isc-resource",
+          "group": "navigation@11"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "iscWorkbench.cloneResourceSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionSource",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionTransform",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.enableResourceRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.disableResourceRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionRole",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.enableResourceAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.disableResourceAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionAccessProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionConnectorRule",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.cloneResourceWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionWorkflow",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentityProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceIdentityProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsIdentityProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceIdentityProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceIdentityProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdIdentityProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionIdentityProfile",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentityAttribute",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceIdentityAttribute",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsIdentityAttribute",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceIdentityAttribute",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceIdentityAttribute",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdIdentityAttribute",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionIdentityAttribute",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceForm",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceForm",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsForm",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceForm",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceForm",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdForm",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionForm",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceGovernanceGroup",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceGovernanceGroup",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsGovernanceGroup",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceGovernanceGroup",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceGovernanceGroup",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdGovernanceGroup",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionGovernanceGroup",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceApplication",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceApplication",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsApplication",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceApplication",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceApplication",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdApplication",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionApplication",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceAccount",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceAccount",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsAccount",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceAccount",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceAccount",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdAccount",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionAccount",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceEntitlement",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceEntitlement",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsEntitlement",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceEntitlement",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceEntitlement",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdEntitlement",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionEntitlement",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceMachineIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceMachineIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsMachineIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceMachineIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceMachineIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdMachineIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionMachineIdentity",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceSchema",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceSchema",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsSchema",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceSchema",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceSchema",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdSchema",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionSchema",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.exportResourceProvisioningPolicy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.deleteResourceProvisioningPolicy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.resourceActionsProvisioningPolicy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.createResourceProvisioningPolicy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.openResourceProvisioningPolicy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.copyResourceIdProvisioningPolicy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.refreshCollectionProvisioningPolicy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasRename",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasDelete",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasUpload",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasDeploy",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasRenameCustomizer",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasDeleteCustomizer",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasUploadCustomizer",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasDeployCustomizer",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasLink",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasUnlink",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasInspect",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.saasCopyId",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.opsDetails",
+          "when": "false"
+        },
+        {
+          "command": "iscWorkbench.opsFilter",
+          "when": "false"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "iscWorkbench.runRequest",
+        "key": "ctrl+alt+enter",
+        "mac": "cmd+alt+enter",
+        "when": "editorLangId == json"
+      }
+    ],
+    "configuration": {
+      "title": "ISC Workbench",
+      "properties": {
+        "iscWorkbench.showApiCatalog": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show the advanced API Catalog sidebar. API search remains available from the Command Palette."
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "json",
+        "path": "./resources/upstream/transforms.json"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "check": "node scripts/check.cjs",
+    "package": "vsce package --no-dependencies --allow-missing-repository",
+    "catalog": "python scripts/build-catalog.py ../api-specs"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.7.1",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}

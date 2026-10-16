@@ -1,0 +1,10 @@
+.vscode/**
+.vscode-test/**
+node_modules/**
+test/**
+scripts/**
+package-lock.json
+**/*.vsix
+*.zip
+
+COMPARISON.md

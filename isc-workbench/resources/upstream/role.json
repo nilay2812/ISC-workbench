@@ -1,0 +1,30 @@
+{
+    "name": "<<NAME>>",
+    "enabled": true,
+    "description": "",
+    "owner": {
+        "type": "IDENTITY",
+        "id": "<<OWNER_ID>>",
+        "name": "<<OWNER_NAME>>"
+    },
+    "additionalOwners": [
+        {
+            "type": "IDENTITY",
+            "id": "<<ADDITIONAL_OWNER_ID>>",
+            "name": "<<ADDITIONAL_OWNER_NAME>>"
+        }
+    ],
+    "entitlements": [],
+    "accessProfiles": [],
+    "membership": null,
+    "legacyMembershipInfo": null,
+    "accessRequestConfig": {
+        "commentsRequired": false,
+        "denialCommentsRequired": false,
+        "approvalSchemes": []
+    },
+    "revocationRequestConfig": {
+        "approvalSchemes": []
+    },
+    "segments": []
+}

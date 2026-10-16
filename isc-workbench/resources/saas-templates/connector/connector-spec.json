@@ -1,0 +1,50 @@
+{
+	"name": "{{$.ProjectName}}",
+	"commands": [
+		"std:account:list",
+		"std:account:read",
+		"std:test-connection"
+	],
+	"sourceConfig": [
+		{
+			"type": "menu",
+			"label": "Configuration",
+			"items": [
+				{
+					"type": "section",
+					"sectionTitle": "Authentication",
+					"sectionHelpMessage": "Provide connection parameters to interact securely with the target application.",
+					"items": [
+						{
+							"key": "token",
+							"label": "Token",
+							"type": "text"
+						}
+					]
+				}
+			]
+		}
+	],
+	"accountSchema":{
+		"displayAttribute": "firstName",
+		"identityAttribute": "email",
+		"attributes":[
+			{
+				"name": "firstName",
+				"type": "string",
+				"description": "First name of the account"
+			},
+			{
+				"name": "lastName",
+				"type": "string",
+				"description": "Last name of the account"
+			},
+			{
+				"name": "email",
+				"type": "string",
+				"description": "Email of the account"
+			}
+		]
+	},
+	"entitlementSchemas": []
+}
