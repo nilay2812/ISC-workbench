@@ -45,7 +45,7 @@ A closed lock means read-only, an open lock means writable. Auto Save never writ
 
 Supported formats: JSON, JSON Patch, multipart file upload, form URL encoding, and binary downloads. For file fields, use `{"$file": "/path/to/accounts.csv"}`.
 
-### Promote configuration between environments
+### Promote configuration between environments (In Testing)
 
 1. Run **Prepare Environment Promotion**. Choose the source tenant, target tenant, API version and configuration types. Optionally list exact object names.
 2. Review `comparison.json` in the folder you chose. Each object is marked `CREATE`, `UNCHANGED` or `REVIEW_UPDATE`.
