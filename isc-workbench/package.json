@@ -16,12 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR-USER/isc-workbench.git"
+    "url": "https://github.com/nilay2812/ISC-workbench.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR-USER/isc-workbench/issues"
+    "url": "https://github.com/nilay2812/ISC-workbench/issues"
   },
-  "homepage": "https://github.com/YOUR-USER/isc-workbench#readme",
+  "homepage": "https://github.com/nilay2812/ISC-workbench#readme",
   "categories": [
     "Other",
     "Snippets"
