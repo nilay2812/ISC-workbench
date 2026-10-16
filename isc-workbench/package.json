@@ -42,7 +42,10 @@
     "transforms",
     "workflows",
     "connectors",
-    "SaaS connectivity"
+    "SaaS connectivity",
+    "SailPoint Identity Security Cloud",
+    "SailPoint IdentityNow",
+    "SailPoint Identity Platform"
   ],
   "preview": true,
   "main": "./src/extension.js",
